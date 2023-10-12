@@ -1,5 +1,5 @@
 
-INSERT INTO region (id, name, parent_id)
+INSERT INTO t_region (id, name, parent_id)
 VALUES (110000, '北京', 0),
        (110100, '北京市', 110000),
        (110101, '东城', 110100),

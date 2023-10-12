@@ -6,14 +6,14 @@ import lombok.Data;
 @Data
 public class ChannelResp {
 
-    private String name;
+    private String channelName;
 
-    private String code;
+    private String channel;
 
     public static ChannelResp of(ChannelEnum channelEnum) {
         ChannelResp resp = new ChannelResp();
-        resp.setName(channelEnum.getName());
-        resp.setCode(channelEnum.getCode());
+        resp.setChannelName(channelEnum.getName());
+        resp.setChannel(channelEnum.getCode());
         return resp;
     }
 }

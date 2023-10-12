@@ -1,13 +1,19 @@
 spring:
   datasource:
-    url: jdbc:mysql://127.0.0.1:3306/test
-    username: root
-    password: root
-    driver-class-name: com.mysql.cj.jdbc.Driver
-    hikari:
-      idleTimeout: 10000
-      minimum-idle: 0
-      connectionTimeout: 60000
-      maximumPoolSize: 20
-      max-lifetime: 60000
-      leak-detection-threshold: 60000
+    url: jdbc:h2:mem:temp;DB_CLOSE_DELAY=-1;INIT=RUNSCRIPT FROM 'classpath:sql/schema.sql'\;RUNSCRIPT FROM 'classpath:sql/data.sql'
+    username: delivery
+    password: 123456
+    driver-class-name: org.h2.Driver
+    initialize: true
+  h2:
+    console:
+      enabled: true
+      path: /h2
+      settings:
+        web-allow-other: true
+  jpa:
+    show-sql: true
+    open-in-view: true
+    hibernate:
+      ddl-auto: update
+    generate-ddl: true
