@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="list" v-show="scene=='list'">
     <el-card class="box-top">
       <el-form :inline="true" class="demo-form-inline">
         <el-form-item label="门店编码">
@@ -43,18 +43,18 @@
         <el-table-column prop="receiveUserAddress" label="收货人地址"/>
         <el-table-column prop="totalPrice" label="订单价格">
           <template #="{row, $index}">
-            {{ row.totalPrice? filterMoney(row.totalPrice)+"元" : '无' }}
+            {{ row.totalPrice ? filterMoney(row.totalPrice) + "元" : '无' }}
           </template>
         </el-table-column>
         <el-table-column prop="orderTime" label="下单时间"/>
         <el-table-column label="订单种类">
           <template #="{row, $index}">
-            {{ row.isMock? 'Mock订单' : '常规订单' }}
+            {{ row.isMock ? 'Mock订单' : '常规订单' }}
           </template>
         </el-table-column>
-        <el-table-column label="编辑">
-          <template #default="scope">
-            <el-button size="small">查看</el-button>
+        <el-table-column label="操作">
+          <template #="{row,$index}">
+            <el-button size="small" @click="toDetail(row)">查看详情</el-button>
           </template>
         </el-table-column>
       </el-table>
@@ -70,14 +70,23 @@
         />
       </div>
     </el-card>
+
+
+    <el-drawer
+        v-model="drawer"
+        title="模拟运单推送!"
+    >
+      <MockDelivery @manualClose="manualClose" ref="drawerRef"/>
+    </el-drawer>
   </div>
 
-  <el-drawer
-      v-model="drawer"
-      title="模拟运单推送!"
-  >
-    <MockDelivery @manualClose="manualClose"  ref="drawerRef"/>
-  </el-drawer>
+  <div v-show="scene=='detail'">
+    <DeliveryDetail
+        ref="deliveryRef"
+        @back="back"
+    ></DeliveryDetail>
+  </div>
+
 </template>
 
 <script setup lang="ts">
@@ -85,9 +94,12 @@
 import {Plus, Search} from "@element-plus/icons-vue";
 import {onMounted, ref} from "vue";
 import MockDelivery from './mockDelivery.vue'
+import DeliveryDetail from "./DeliveryDetail.vue";
 import {order_page} from "@/api/delivery";
 import {format} from "date-fns";
 import {ElMessage} from "element-plus";
+
+let scene = ref<string>('list');
 
 const drawer = ref(false)
 
@@ -96,13 +108,14 @@ let orderCode = ref<string>();
 let total = ref<number>();
 let pageSize = ref<number>(10);
 let pageNum = ref<number>(1);
+let deliveryRef = ref();
 
 let drawerRef = ref<any>();
 
 let orderInfo = ref<OrderInfo[]>();
 
 
-const defaultTimePicker = ()=>{
+const defaultTimePicker = () => {
   const end = new Date()
   end.setTime(end.getTime() + 3600 * 1000 * 24);
   const start = new Date()
@@ -110,9 +123,9 @@ const defaultTimePicker = ()=>{
   return [start, end]
 }
 
-const orderTime = ref<[Date,Date]>(defaultTimePicker());
+const orderTime = ref<[Date, Date]>(defaultTimePicker());
 
-const query = async ()=>{
+const query = async () => {
   if (orderTime == null) {
     ElMessage({
       type: "error",
@@ -134,32 +147,40 @@ const query = async ()=>{
   orderInfo.value = result.list;
 }
 
-onMounted(async ()=>{
+onMounted(async () => {
   await query();
 })
-
-const handleSizeChange =  async ()=>{
-  await query();
-}
-const handlePageChange =  async ()=>{
-  await query();
-}
-const searchStore = async()=>{
+const back = async () => {
+  scene.value = 'list';
   await query();
 }
 
-const mockDelivery = async ()=>{
+const handleSizeChange = async () => {
+  await query();
+}
+const handlePageChange = async () => {
+  await query();
+}
+const searchStore = async () => {
+  await query();
+}
+
+const toDetail = async (info: OrderInfo) => {
+  scene.value = 'detail';
+  deliveryRef.value.init(info.orderCode);
+};
+const mockDelivery = async () => {
   drawer.value = true;
   drawerRef.value.init();
 }
-const manualClose = async (obj:string) => {
+const manualClose = async (obj: string) => {
   drawer.value = false;
   if (obj == 'create') {
     await query();
   }
 };
 
-const filterMoney = (num:string)=> {
+const filterMoney = (num: string) => {
   return (num / 100).toFixed(2);
 }
 

@@ -6,7 +6,7 @@ import lombok.Data;
 import java.time.LocalDateTime;
 
 @Data
-public class DeliveryInfo {
+public class DeliveryInfoResp {
 
     private Long orderId;
     private String orderCode;
@@ -16,6 +16,7 @@ public class DeliveryInfo {
     private String channel;
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     private LocalDateTime pushTime;
+
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     private LocalDateTime riderReceiveTime;
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")

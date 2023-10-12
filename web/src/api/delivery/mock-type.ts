@@ -13,8 +13,3 @@ interface DeliveryCreateReq {
     detailInfos: ProductInfo[];
 }
 
-interface ProductInfo{
-    productName: string,
-    productNum: string,
-    productRemark: string
-}

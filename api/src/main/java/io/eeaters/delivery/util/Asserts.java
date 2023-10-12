@@ -1,6 +1,9 @@
 package io.eeaters.delivery.util;
 
 import io.eeaters.delivery.config.exception.AssertException;
+import org.springframework.util.CollectionUtils;
+
+import java.util.Collection;
 
 public interface Asserts {
 
@@ -17,6 +20,12 @@ public interface Asserts {
 
     static void isTrue(Boolean flag, String message) {
         if (flag) {
+            throw new AssertException(message);
+        }
+    }
+
+    static <T> void isEmpty(Collection<T> c,String message) {
+        if (CollectionUtils.isEmpty(c)) {
             throw new AssertException(message);
         }
     }

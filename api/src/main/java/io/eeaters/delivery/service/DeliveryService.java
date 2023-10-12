@@ -4,7 +4,9 @@ import io.eeaters.delivery.converter.base.PageResponseConverter;
 import io.eeaters.delivery.converter.model.OrderConverter;
 import io.eeaters.delivery.converter.model.ProductInfoConverter;
 import io.eeaters.delivery.converter.vo.delivery.resp.DeliveryInfoConverter;
-import io.eeaters.delivery.converter.vo.delivery.resp.OrderInfoConverter;
+import io.eeaters.delivery.converter.vo.delivery.resp.OrderDetailInfoRespConverter;
+import io.eeaters.delivery.converter.vo.delivery.resp.OrderInfoRespConverter;
+import io.eeaters.delivery.converter.vo.delivery.resp.ProductInfoRespConverter;
 import io.eeaters.delivery.entity.base.PageResponse;
 import io.eeaters.delivery.entity.model.Delivery;
 import io.eeaters.delivery.entity.model.Order;
@@ -12,8 +14,10 @@ import io.eeaters.delivery.entity.model.ProductInfo;
 import io.eeaters.delivery.entity.model.Store;
 import io.eeaters.delivery.entity.vo.delivery.req.CreateDeliveryReq;
 import io.eeaters.delivery.entity.vo.delivery.req.ListOrderReq;
-import io.eeaters.delivery.entity.vo.delivery.resp.DeliveryInfo;
-import io.eeaters.delivery.entity.vo.delivery.resp.OrderInfo;
+import io.eeaters.delivery.entity.vo.delivery.resp.DeliveryInfoResp;
+import io.eeaters.delivery.entity.vo.delivery.resp.OrderDetailInfoResp;
+import io.eeaters.delivery.entity.vo.delivery.resp.OrderInfoResp;
+import io.eeaters.delivery.entity.vo.delivery.resp.ProductInfoResp;
 import io.eeaters.delivery.event.DeliveryCreateEvent;
 import io.eeaters.delivery.event.EventPublisher;
 import io.eeaters.delivery.mapper.DeliveryRepository;
@@ -77,7 +81,7 @@ public class DeliveryService {
 
     }
 
-    public PageResponse<OrderInfo> pageOrder(ListOrderReq req) {
+    public PageResponse<OrderInfoResp> pageOrder(ListOrderReq req) {
         PageRequest pageRequest = req.getPageQuery()
                 .toPageRequest()
                 .withSort(Sort.by(Sort.Direction.DESC, "orderTime"));
@@ -95,10 +99,20 @@ public class DeliveryService {
             }
             return query.where(ps.toArray(new Predicate[0])).getRestriction();
         }, pageRequest);
-        return PageResponseConverter.convert(orders, OrderInfoConverter::convert);
+        return PageResponseConverter.convert(orders, OrderInfoRespConverter::convert);
     }
 
-    public DeliveryInfo latestDelivery(String orderCode) {
+
+    public OrderDetailInfoResp orderInfo(String orderCode) {
+        Order order = orderRepository.findByOrderCode(orderCode);
+        Asserts.isNull(order, "订单不存在");
+
+        List<ProductInfo> productInfos = productInfoRepository.findByOrderCode(orderCode);
+        Asserts.isEmpty(productInfos, "订单无对应商品");
+        return OrderDetailInfoRespConverter.convert(order, productInfos);
+    }
+
+    public DeliveryInfoResp latestDelivery(String orderCode) {
         List<Delivery> deliveryList = deliveryRepository.findByOrderCode(orderCode);
         return deliveryList.stream()
                 .max(Comparator.comparing(Delivery::getCreateTime))

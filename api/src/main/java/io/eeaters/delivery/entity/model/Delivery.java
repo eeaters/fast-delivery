@@ -51,6 +51,14 @@ public class Delivery implements Serializable {
     */
     private LocalDateTime pushTime;
     /**
+     * 三方预计送达时间
+     */
+    private LocalDateTime exceptTime;
+    /**
+     * 三方接单时间
+     */
+    private LocalDateTime channelReceiveTime;
+    /**
     * 骑手接单时间
     */
     private LocalDateTime riderReceiveTime;

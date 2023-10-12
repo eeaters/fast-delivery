@@ -5,7 +5,7 @@ import lombok.Data;
 import java.time.LocalDateTime;
 
 @Data
-public class OrderInfo {
+public class OrderInfoResp {
 
 
     private String storeCode;

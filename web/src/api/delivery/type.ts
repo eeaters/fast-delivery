@@ -7,10 +7,22 @@ interface OrderListReq{
 }
 
 
+interface ProductInfo{
+    productName: string,
+    productNum: string,
+    productRemark: string
+}
 
 
-
-
+interface WeightInfo{
+    type:number,
+    infoList:[{
+        channel:string,
+        price: number,
+        distance: string,
+        sort: number
+    }]
+}
 
 
 //request  ↑
@@ -28,7 +40,7 @@ interface OrderInfo {
     isMock: boolean | ?;
 }
 
-interface DetailInfo{
+interface DeliveryDetailInfo {
     orderId:number,
     orderCode:string,
     channelOrderId:string,
@@ -53,3 +65,8 @@ interface OrderInfoPage extends PageRes{
     list: OrderInfo[];
 }
 
+
+interface OrderDetailInfo{
+    orderInfo:OrderInfo,
+    productInfos:  ProductInfo[];
+}
