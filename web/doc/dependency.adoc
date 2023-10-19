@@ -1,0 +1,11 @@
+
+|===
+|命令 |功能
+| npm i sass | css升级为scss
+| npm i @types/node --save-dev | ts类型报错
+| npm i element-plus --save | element-plus
+| npm i axios | 网络连接
+| npm i pinia | 仓库存储
+| npm i vue-router | 路由
+| npm i @element-plus/icons-vue | icon图表
+|===

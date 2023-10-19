@@ -1,0 +1,13 @@
+spring:
+  datasource:
+    url: jdbc:mysql://127.0.0.1:3306/test
+    username: root
+    password: root
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    hikari:
+      idleTimeout: 10000
+      minimum-idle: 0
+      connectionTimeout: 60000
+      maximumPoolSize: 20
+      max-lifetime: 60000
+      leak-detection-threshold: 60000

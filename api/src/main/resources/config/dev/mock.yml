@@ -1,0 +1,10 @@
+delivery:
+  mock:
+    user:
+      enabled: true
+      userName: Super Admin
+      phone: 13333333333
+      password: 123456
+      token: 123456
+    delivery-auto-flow:
+      enabled: true
