@@ -8,16 +8,20 @@ const request = axios.create({
 })
 
 request.interceptors.request.use(config => {
-        let useUserStore = userStore()
-        if (useUserStore.userInfo.token) {
-            config.headers.token = useUserStore.userInfo.token
-        }
-        return config
+    let useUserStore = userStore()
+    if (useUserStore.userInfo.token) {
+        config.headers.token = useUserStore.userInfo.token
+    }
+    //todo
+    if (config.url.endsWith("delivery/create")) {
+        config.headers.mock = true;
+    }
+    return config;
 });
 
-request.interceptors.response.use(response =>{
-    return response.data          ;
-},error =>{
+request.interceptors.response.use(response => {
+    return response.data;
+}, error => {
     let status = error.response.status;
     switch (status) {
         case 404:

@@ -24,7 +24,7 @@
         <el-form-item label="订单编号">
           <el-input placeholder="无" disabled v-model="orderInfo.orderInfo.orderCode"/>
         </el-form-item>
-        <el-form-item label="发货门店">
+        <el-form-item label="发货门店编号">
           <el-input placeholder="无" disabled v-model="orderInfo.orderInfo.storeCode"/>
         </el-form-item>
         <el-form-item label="收货人">
@@ -72,7 +72,7 @@
         </template>
 
         <el-form-item label="推送渠道">
-          <el-input placeholder="无" disabled/>
+          <el-input placeholder="无" disabled :value="channelConvert(deliveryInfo.channel)"> </el-input>
         </el-form-item>
         <el-form-item label="渠道运单号">
           <el-input placeholder="无" v-model="deliveryInfo.channelOrderId" disabled/>
@@ -81,7 +81,7 @@
           <el-input placeholder="无" v-model="deliveryInfo.channelPrice" disabled/>
         </el-form-item>
         <el-form-item label="预计送达时间">
-          <el-input placeholder="无" disabled/>
+          <el-input placeholder="无" disabled  v-model="deliveryInfo.exceptTime"/>
         </el-form-item>
 
         <el-form-item label="配送骑手">
@@ -153,7 +153,7 @@ let orderInitial = reactive<OrderInfo>({
   totalPrice: 0,
   weightInfo: undefined
 })
-let deliveryInfo = reactive<DeliveryDetailInfo>({
+let deliveryInitial = reactive < DeliveryDetailInfo>({
   arriveStoreTime: "",
   cancelCode: "",
   cancelMessage: "",
@@ -173,6 +173,7 @@ let deliveryInfo = reactive<DeliveryDetailInfo>({
   riderReceiveTime: "",
   status: 0
 });
+let deliveryInfo = reactive<DeliveryDetailInfo>({...deliveryInitial});
 
 
 let orderInfo = reactive<OrderDetailInfo>({
@@ -212,6 +213,7 @@ const query = async () => {
 const init = async (code: string) => {
   orderCode.value = code;
   orderInfo.orderInfo = {...orderInitial};
+  Object.assign(deliveryInfo, deliveryInitial);
   await search();
 };
 const search = async () => {

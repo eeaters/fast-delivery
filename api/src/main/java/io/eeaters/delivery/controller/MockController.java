@@ -5,6 +5,7 @@ import io.eeaters.delivery.mock.support.AddressGenerate;
 import io.eeaters.delivery.mock.support.GeoGenerate;
 import io.eeaters.delivery.mock.support.NameGenerate;
 import io.eeaters.delivery.mock.support.PhoneGenerate;
+import io.eeaters.delivery.util.RandomUtils;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -22,7 +23,7 @@ public class MockController {
 
         CreateDeliveryReq deliveryReq = new CreateDeliveryReq();
         deliveryReq.setCallbackUrl("http://xxx.com/callback");
-        deliveryReq.setOrderCode(UUID.randomUUID().toString());
+        deliveryReq.setOrderCode(RandomUtils.random());
         deliveryReq.setReceiveUserLatitude(GeoGenerate.getCnLatitude());
         deliveryReq.setReceiveUserLongitude(GeoGenerate.getCnLongitude());
         deliveryReq.setReceiveUserName(NameGenerate.getCnName());
