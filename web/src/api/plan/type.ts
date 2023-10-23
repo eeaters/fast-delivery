@@ -11,6 +11,7 @@ interface PlanBaseInfo{
 
 interface PlanInfo extends PlanBaseInfo{
     desc: string,
+    type: number,
     timePeriod: number;
     mappingList: PlanChannelMapping[]
 }

@@ -11,6 +11,15 @@
           <el-option label="45 分钟" value="45"/>
         </el-select>
       </el-form-item>
+
+      <el-form-item label="方案类型">
+        <el-select v-model="planForm.type">
+          <el-option label="默认排序" value="1"/>
+          <el-option label="价格优先" value="2"/>
+          <el-option label="距离优先" value="3"/>
+        </el-select>
+      </el-form-item>
+
       <el-form-item label="方案描述">
         <el-input type="textarea" v-model="planForm.desc"/>
       </el-form-item>
@@ -49,7 +58,7 @@
 </template>
 
 <script setup lang="ts">
-import {reactive, ref} from "vue";
+import {nextTick, reactive, ref} from "vue";
 import {plan_add, plan_update} from "@/api/plan";
 import userStore from "@/store/modules/user.ts";
 
@@ -109,6 +118,7 @@ const save = async ()=>{
   let planInfo: PlanAdd = {
     id: planForm.id,
     desc: planForm.desc,
+    type: planForm.type,
     mappingList: channels,
     planName: planForm.planName,
     timePeriod: planForm.timePeriod,
@@ -129,15 +139,18 @@ const init = (plan: PlanInfo) => {
     planForm.id = plan.id;
     planForm.desc = plan.desc;
     planForm.planName = plan.planName;
+    planForm.type = plan.type;
     planForm.timePeriod = plan.timePeriod;
     planForm.mappingList = plan.mappingList;
   }else{
     planForm.id = undefined;
     planForm.desc = '';
     planForm.planName = '';
+    planForm.type = '';
     planForm.timePeriod = 15;
     planForm.mappingList = [];
   }
+
   initChannel();
 };
 const initChannel = ()=>{

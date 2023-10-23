@@ -18,6 +18,10 @@ public class DeliveryInfoResp {
     private LocalDateTime pushTime;
 
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+    private LocalDateTime exceptTime;
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+    private LocalDateTime channelReceiveTime;
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     private LocalDateTime riderReceiveTime;
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     private LocalDateTime arriveStoreTime;

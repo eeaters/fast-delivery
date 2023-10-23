@@ -1,0 +1,4 @@
+delivery:
+  mock:
+    delivery-auto-flow:
+      enabled: true
