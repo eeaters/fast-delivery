@@ -30,7 +30,20 @@
 
         <el-table-column prop="id" label="ID"/>
         <el-table-column prop="planName" label="方案名称"/>
-        <el-table-column prop="timePeriod" label="超时未接单间隔"/>
+
+        <el-table-column label="方案类型">
+          <template #="{ row, $index }">
+            <span v-if="row.type ==1">默认排序</span>
+            <span v-if="row.type ==2">价格优先</span>
+            <span v-if="row.type ==3">距离优先</span>
+          </template>
+        </el-table-column>
+
+        <el-table-column  label="超时未接单间隔">
+          <template #="{ row, $index }">
+            {{row.timePeriod? row.timePeriod +"分钟" : "未设置"}}
+          </template>
+        </el-table-column>
         <el-table-column prop="desc" label="详情描述"/>
         <el-table-column label="操作">
           <template #="{ row, $index }">

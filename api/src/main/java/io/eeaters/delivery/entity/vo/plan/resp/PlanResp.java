@@ -11,6 +11,8 @@ public class PlanResp {
 
     private String planName;
 
+    private Integer type;
+
     private String desc;
 
     private Integer timePeriod;
