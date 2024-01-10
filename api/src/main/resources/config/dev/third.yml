@@ -1,7 +1,9 @@
 third:
   delivery:
-    sf:
+    isMock: false
+    shunfeng:
       appId:
       appKey:
       productType: 10
       shopType: 2
+      returnFlag: 511

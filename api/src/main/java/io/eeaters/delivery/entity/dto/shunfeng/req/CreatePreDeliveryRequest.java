@@ -32,7 +32,8 @@ public class CreatePreDeliveryRequest {
 
     @JsonProperty("push_time")
     private Integer pushTime;
-
+    //1:商品总价格，2:配送距离，4:物品重量，8:起送时间，16:期望送达时间，32:支付费用，64:实际支持金额，128:优惠券总金额，256:结算方式
+    //例如全部返回为填入511
     @JsonProperty("return_flag")
     private Integer returnFlag;
 }

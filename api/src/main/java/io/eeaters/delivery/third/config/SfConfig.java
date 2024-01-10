@@ -29,8 +29,8 @@ public class SfConfig {
             public void encode(Object requestBody, Type bodyType, RequestTemplate request) throws EncodeException {
                 String sign;
                 try {
-                    sign = generateSign(new ObjectMapper().writeValueAsString(requestBody), config.getDelivery().getSf().getAppId(),
-                            config.getDelivery().getSf().getAppKey());
+                    sign = generateSign(new ObjectMapper().writeValueAsString(requestBody), config.getDelivery().getShunfeng().getAppId(),
+                            config.getDelivery().getShunfeng().getAppKey());
                 } catch (Exception e) {
                     throw new RuntimeException(e);
                 }

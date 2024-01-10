@@ -1,10 +1,11 @@
-package io.eeaters.delivery.third;
+package io.eeaters.delivery.third.client;
 
 import io.eeaters.delivery.EnvSupport;
 import io.eeaters.delivery.config.third.ThirdConfig;
 import io.eeaters.delivery.entity.dto.shunfeng.req.CreatePreDeliveryRequest;
 import io.eeaters.delivery.entity.dto.shunfeng.resp.CreatePreDeliveryResponse;
 import io.eeaters.delivery.entity.dto.shunfeng.resp.SfBaseResponse;
+import io.eeaters.delivery.third.client.ShunFengClient;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.autoconfigure.http.HttpMessageConvertersAutoConfiguration;
 import org.springframework.cloud.openfeign.EnableFeignClients;

@@ -14,7 +14,8 @@ public class ThirdConfig {
 
     @Data
     public static class DeliveryProperty {
-        private SfProperty sf;
+        private Boolean isMock;
+        private SfProperty shunfeng;
     }
 
 
@@ -23,7 +24,9 @@ public class ThirdConfig {
         private Integer appId;
         private String appKey;
         private Integer productType;
-        private Integer storeType;
+        private Integer shopType;
+        private Integer returnFlag;
+        private Boolean isMock;
     }
 
 

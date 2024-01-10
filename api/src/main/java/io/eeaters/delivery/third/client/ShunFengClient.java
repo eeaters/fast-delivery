@@ -1,4 +1,4 @@
-package io.eeaters.delivery.third;
+package io.eeaters.delivery.third.client;
 
 import io.eeaters.delivery.entity.dto.shunfeng.req.CreateDeliveryRequest;
 import io.eeaters.delivery.entity.dto.shunfeng.req.CreatePreDeliveryRequest;
