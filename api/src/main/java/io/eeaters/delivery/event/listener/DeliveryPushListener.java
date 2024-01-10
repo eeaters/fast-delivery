@@ -1,13 +1,12 @@
 package io.eeaters.delivery.event.listener;
 
-import io.eeaters.delivery.entity.dto.delivery.WeightInfoDto;
+import io.eeaters.delivery.entity.dto.delivery.WeightInfoDTO;
 import io.eeaters.delivery.entity.model.Delivery;
 import io.eeaters.delivery.enums.DeliveryStatusEnum;
 import io.eeaters.delivery.event.context.PushDeliveryContext;
 import io.eeaters.delivery.event.DeliveryCreateEvent;
 import io.eeaters.delivery.mapper.DeliveryRepository;
 import io.eeaters.delivery.util.AsyncTraceSupport;
-import io.eeaters.delivery.util.JsonUtils;
 import io.eeaters.delivery.util.RandomUtils;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,7 +19,7 @@ import java.util.Iterator;
 
 @Component
 @Slf4j
-public class DeliveryCreateMockListener implements ApplicationListener<DeliveryCreateEvent> {
+public class DeliveryPushListener implements ApplicationListener<DeliveryCreateEvent> {
 
 
     @Autowired
@@ -29,25 +28,30 @@ public class DeliveryCreateMockListener implements ApplicationListener<DeliveryC
     @Override
     @Async
     public void onApplicationEvent(DeliveryCreateEvent event) {
-        AsyncTraceSupport.execute(event.getTraceId(), this.getClass().getSimpleName(), () -> mockDelivery(event.getOrderId()));
+        AsyncTraceSupport.execute(event.getTraceId(), this.getClass().getSimpleName(), () -> pushDelivery(event.getOrderId()));
     }
 
     /**
      * 如果是mock运单, 则取第一个配送取单, 默认推送成功
      * @param orderId
      */
-    private void mockDelivery(Long orderId) {
+    private void pushDelivery(Long orderId) {
         PushDeliveryContext pushDeliveryContext = new PushDeliveryContext(orderId);
-        if (!pushDeliveryContext.isMock()) {
-            log.info("DeliveryCreateMockListener 不处理正常订单, 订单信息: " + JsonUtils.writeValueAsString(pushDeliveryContext.getOrder()));
-            return;
+        if (pushDeliveryContext.isMock()) {
+            mockDelivery(pushDeliveryContext);
+        }else{
+
         }
-        Iterator<WeightInfoDto.ChannelWeightInfo> infoIterator = pushDeliveryContext
+    }
+
+
+    private void mockDelivery(PushDeliveryContext pushDeliveryContext) {
+        Iterator<WeightInfoDTO.ChannelWeightInfo> infoIterator = pushDeliveryContext
                 .channelIterable()
                 .iterator();
 
         if (infoIterator.hasNext()) {
-            WeightInfoDto.ChannelWeightInfo weightInfo = infoIterator.next();
+            WeightInfoDTO.ChannelWeightInfo weightInfo = infoIterator.next();
             String channel = weightInfo.getChannel();
             Delivery delivery = new Delivery();
             delivery.setChannel(channel);
@@ -62,6 +66,5 @@ public class DeliveryCreateMockListener implements ApplicationListener<DeliveryC
             deliveryRepository.save(delivery);
         }
     }
-
 
 }

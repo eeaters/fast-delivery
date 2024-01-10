@@ -1,0 +1,7 @@
+third:
+  delivery:
+    sf:
+      appId:
+      appKey:
+      productType: 10
+      shopType: 2

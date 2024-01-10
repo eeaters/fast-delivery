@@ -2,8 +2,8 @@ package io.eeaters.delivery.event.context;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import io.eeaters.delivery.converter.dto.WeightInfoDtoConverter;
-import io.eeaters.delivery.entity.dto.delivery.WeightInfoDto;
+import io.eeaters.delivery.converter.dto.deilvery.WeightInfoDtoConverter;
+import io.eeaters.delivery.entity.dto.delivery.WeightInfoDTO;
 import io.eeaters.delivery.entity.model.*;
 import io.eeaters.delivery.enums.WeightTypeEnum;
 import io.eeaters.delivery.mapper.*;
@@ -52,11 +52,11 @@ public class PushDeliveryContext {
      *
      * @return
      */
-    public Iterable<WeightInfoDto.ChannelWeightInfo> channelIterable() {
+    public Iterable<WeightInfoDTO.ChannelWeightInfo> channelIterable() {
         Order currentOrder = getOrder();
 
-        WeightInfoDto weightInfoDto = Optional.ofNullable(currentOrder.getWeightInfo())
-                .map(info -> JsonUtils.readValue(info, WeightInfoDto.class))
+        WeightInfoDTO weightInfoDto = Optional.ofNullable(currentOrder.getWeightInfo())
+                .map(info -> JsonUtils.readValue(info, WeightInfoDTO.class))
                 .orElse(initWeightInfo());
 
 
@@ -73,7 +73,7 @@ public class PushDeliveryContext {
 
     }
 
-    private WeightInfoDto initWeightInfo() {
+    private WeightInfoDTO initWeightInfo() {
         Plan currentPlan = getPlan();
 
         Integer type = currentPlan.getType();
@@ -81,7 +81,7 @@ public class PushDeliveryContext {
             throw new RuntimeException("暂不支持该排序规则");
         }
         //todo 价格优先/时间优先依赖三方接口调用,暂不支持
-        WeightInfoDto weightInfoDto = WeightInfoDtoConverter.convertDefault(getMappings());
+        WeightInfoDTO weightInfoDto = WeightInfoDtoConverter.convertDefault(getMappings());
 
         SpringUtils.getBean(OrderRepository.class).updateWeightInfoByOrderId(getOrder().getId(),
                 NonExSupplier.exec(() -> objectMapper.writeValueAsString(weightInfoDto)));

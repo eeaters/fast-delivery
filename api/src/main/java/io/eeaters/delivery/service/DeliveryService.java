@@ -60,7 +60,7 @@ public class DeliveryService {
     @Transactional
     public Long createDelivery(CreateDeliveryReq req, Boolean mock) {
         Order order = orderRepository.findByOrderCode(req.getOrderCode());
-        //重复推送
+        //重复推送 -- 实际此处有并发风险
         if (order != null) {
             return order.getId();
         }

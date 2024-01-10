@@ -1,11 +1,10 @@
 package io.eeaters.delivery.entity.vo.plan.req;
 
-import io.eeaters.delivery.entity.base.OperateUser;
-import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
 
-import java.util.List;
-
-@Data
+@Getter
+@Setter
 public class UpdatePlanReq extends AddPlanReq{
 
     private Long id;

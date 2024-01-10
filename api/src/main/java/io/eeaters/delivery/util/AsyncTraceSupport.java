@@ -5,10 +5,10 @@ import org.slf4j.MDC;
 public class AsyncTraceSupport {
 
 
-    public static void execute(String traceId, String taskName, Runnable runnable) {
+    public static void execute(String traceId, String spanId, Runnable runnable) {
         try{
             MDC.put("traceId", traceId);
-            MDC.put("spanId", taskName);
+            MDC.put("spanId", spanId);
             runnable.run();
         }finally {
             MDC.clear();

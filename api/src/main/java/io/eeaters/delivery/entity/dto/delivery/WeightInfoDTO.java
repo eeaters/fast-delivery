@@ -8,7 +8,7 @@ import java.util.List;
  * 计算配送渠道权重的信息
  */
 @Data
-public class WeightInfoDto {
+public class WeightInfoDTO {
 
     //方案权重规则
     private Integer type;
