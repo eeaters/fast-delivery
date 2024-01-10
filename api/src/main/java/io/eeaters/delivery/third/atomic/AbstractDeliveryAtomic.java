@@ -2,6 +2,7 @@ package io.eeaters.delivery.third.atomic;
 
 import io.eeaters.delivery.config.third.ThirdConfig;
 import io.eeaters.delivery.entity.dto.third.CreateDeliveryDTO;
+import io.eeaters.delivery.entity.dto.third.CreatePreDeliveryDTO;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.env.Environment;
@@ -20,13 +21,13 @@ public abstract class AbstractDeliveryAtomic implements BaseDeliveryAtomic {
 
 
     @Override
-    public void createPreOrder(CreateDeliveryDTO createDeliveryDTO) {
+    public CreatePreDeliveryDTO createPreOrder(CreateDeliveryDTO createDeliveryDTO) {
         if (isMock()) {
             log.info("{} 渠道开启了挡板, 预下单接口直接返回。", supportChannel().getName());
             //todo: mock一下数据
             //return
         }
-        createPreDeliveryInternal(createDeliveryDTO);
+        return createPreDeliveryInternal(createDeliveryDTO);
     }
 
 
@@ -40,7 +41,7 @@ public abstract class AbstractDeliveryAtomic implements BaseDeliveryAtomic {
         createDeliveryInternal(createDeliveryDTO);
     }
 
-    protected abstract void createPreDeliveryInternal(CreateDeliveryDTO createDeliveryDTO);
+    protected abstract CreatePreDeliveryDTO createPreDeliveryInternal(CreateDeliveryDTO createDeliveryDTO);
 
     protected abstract void createDeliveryInternal(CreateDeliveryDTO createDeliveryDTO);
 

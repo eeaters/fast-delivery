@@ -4,6 +4,7 @@ package io.eeaters.delivery.third.atomic;
 import io.eeaters.delivery.EnvSupport;
 import io.eeaters.delivery.config.third.ThirdConfig;
 import io.eeaters.delivery.entity.dto.third.CreateDeliveryDTO;
+import io.eeaters.delivery.entity.dto.third.CreatePreDeliveryDTO;
 import io.eeaters.delivery.third.client.ShunFengClient;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.autoconfigure.http.HttpMessageConvertersAutoConfiguration;
@@ -41,7 +42,8 @@ public class ShunFengDeliveryAtomicTest {
         createDeliveryDTO.setUserInformation(information);
 
         ShunFengDeliveryAtomic bean = applicationContext.getBean(ShunFengDeliveryAtomic.class);
-        bean.createPreOrder(createDeliveryDTO);
+        CreatePreDeliveryDTO preOrder = bean.createPreOrder(createDeliveryDTO);
+        System.out.println("preOrder = " + preOrder);
 
         applicationContext.close();
     }
