@@ -1,27 +1,19 @@
 package io.eeaters.delivery.third;
 
+import io.eeaters.delivery.EnvSupport;
 import io.eeaters.delivery.config.third.ThirdConfig;
 import io.eeaters.delivery.entity.dto.shunfeng.req.CreatePreDeliveryRequest;
 import io.eeaters.delivery.entity.dto.shunfeng.resp.CreatePreDeliveryResponse;
 import io.eeaters.delivery.entity.dto.shunfeng.resp.SfBaseResponse;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.autoconfigure.http.HttpMessageConvertersAutoConfiguration;
-import org.springframework.boot.autoconfigure.web.client.RestTemplateAutoConfiguration;
-import org.springframework.boot.env.YamlPropertySourceLoader;
 import org.springframework.cloud.openfeign.EnableFeignClients;
 import org.springframework.cloud.openfeign.FeignAutoConfiguration;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
-import org.springframework.core.env.ConfigurableEnvironment;
-import org.springframework.core.env.Environment;
-import org.springframework.core.env.PropertySource;
-import org.springframework.core.env.StandardEnvironment;
-import org.springframework.core.io.ClassPathResource;
-import org.springframework.core.io.support.EncodedResource;
 
 import java.io.IOException;
 import java.time.LocalDateTime;
 import java.time.ZoneOffset;
-import java.util.List;
 
 @EnableFeignClients(clients = ShunFengClient.class)
 public class ShunFengClientTest {
@@ -35,7 +27,7 @@ public class ShunFengClientTest {
                 this.getClass(),
                 ThirdConfig.class
         );
-        applicationContext.setEnvironment(createEnv());
+        applicationContext.setEnvironment(EnvSupport.createEnv("config/dev/third.yml"));
         applicationContext.refresh();
 
 
@@ -58,18 +50,4 @@ public class ShunFengClientTest {
         applicationContext.close();
     }
 
-
-    public static ConfigurableEnvironment createEnv() throws IOException {
-        ConfigurableEnvironment configurableEnvironment = new StandardEnvironment();
-        YamlPropertySourceLoader propertySourceLoader = new YamlPropertySourceLoader();
-        String name = "application";
-        ClassPathResource classPathResource = new ClassPathResource("config/dev/third.yml");
-        EncodedResource encodedResource = new EncodedResource(classPathResource);
-        List<PropertySource<?>> load = propertySourceLoader.load(name, encodedResource.getResource());
-
-        for (PropertySource<?> propertySource : load) {
-            configurableEnvironment.getPropertySources().addFirst(propertySource);
-        }
-        return configurableEnvironment;
-    }
 }
